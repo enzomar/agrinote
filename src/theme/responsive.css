@@ -1,0 +1,115 @@
+/* Responsive utilities for AgriNote */
+
+/* Desktop specific styles */
+@media (min-width: 992px) {
+  .desktop-only {
+    display: block;
+  }
+  
+  .mobile-only {
+    display: none;
+  }
+
+  /* Optimize cards for desktop */
+  ion-card {
+    max-width: 800px;
+    margin: 16px auto;
+  }
+
+  /* Improve grid layout for desktop */
+  .desktop-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 16px;
+    padding: 16px;
+  }
+
+  /* Enhanced split pane behavior */
+  ion-split-pane {
+    --side-width: 300px;
+    --side-max-width: 300px;
+  }
+
+  /* Desktop optimized forms */
+  ion-item {
+    --padding-start: 16px;
+    --padding-end: 16px;
+    --inner-padding-end: 16px;
+  }
+
+  /* Desktop hover states */
+  ion-item:hover {
+    --background: var(--ion-color-light-tint);
+  }
+}
+
+/* Tablet specific styles */
+@media (min-width: 768px) and (max-width: 991px) {
+  ion-card {
+    max-width: 600px;
+    margin: 16px auto;
+  }
+}
+
+/* Mobile specific styles */
+@media (max-width: 767px) {
+  .desktop-only {
+    display: none;
+  }
+  
+  .mobile-only {
+    display: block;
+  }
+
+  ion-content {
+    --padding-start: 12px;
+    --padding-end: 12px;
+  }
+}
+
+/* Common styles for all platforms */
+ion-content {
+  --background: var(--ion-background-color);
+}
+
+/* Touch-friendly sizing */
+ion-button {
+  min-height: 44px;
+}
+
+ion-item {
+  --min-height: 48px;
+}
+
+/* Improved scrolling on all devices */
+ion-content {
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Responsive typography */
+:root {
+  --ion-font-size-small: 12px;
+  --ion-font-size-default: 14px;
+  --ion-font-size-large: 16px;
+}
+
+@media (min-width: 992px) {
+  :root {
+    --ion-font-size-small: 13px;
+    --ion-font-size-default: 15px;
+    --ion-font-size-large: 17px;
+  }
+}
+
+/* Improved touch targets for mobile */
+@media (max-width: 767px) {
+  ion-button {
+    margin: 8px 0;
+  }
+  
+  ion-item {
+    --padding-start: 12px;
+    --padding-end: 12px;
+  }
+}

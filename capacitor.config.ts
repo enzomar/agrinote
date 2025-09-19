@@ -4,9 +4,10 @@ const config: CapacitorConfig = {
   appId: 'com.agri.pwa',
   appName: 'AgriPWA',
   webDir: 'build',          // output della build React
-  bundledWebRuntime: false,
   server: {
     androidScheme: 'https',
+    iosScheme: 'https',
+    hostname: 'app',
   },
   plugins: {
     Camera: {

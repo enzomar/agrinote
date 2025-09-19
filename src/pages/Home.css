@@ -1,37 +1,638 @@
-import React from "react";
-import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent, IonGrid, IonRow, IonCol } from "@ionic/react";
-import DashboardCard from "../components/DashboardCard";
+@import '../styles/global.css';
+@import '../styles/components.css';
+@import '../styles/layouts.css';
 
-const Home: React.FC = () => {
-  return (
-    <IonPage>
-      <IonHeader>
-        <IonToolbar color="primary">
-          <IonTitle>Dashboard</IonTitle>
-        </IonToolbar>
-      </IonHeader>
-      <IonContent fullscreen>
-        <IonGrid>
-          <IonRow>
-            <IonCol size="6">
-              <DashboardCard title="Trattamenti" path="/treatments" />
-            </IonCol>
-            <IonCol size="6">
-              <DashboardCard title="Concimazioni" path="/fertilizations" />
-            </IonCol>
-          </IonRow>
-          <IonRow>
-            <IonCol size="6">
-              <DashboardCard title="Magazzino" path="/warehouse" />
-            </IonCol>
-            <IonCol size="6">
-              <DashboardCard title="Report" path="/reports" />
-            </IonCol>
-          </IonRow>
-        </IonGrid>
-      </IonContent>
-    </IonPage>
-  );
-};
+/* Fix for IonRefresher */
+ion-content.ios {
+  --background: var(--ion-background-color);
+}
 
-export default Home;
+.ion-refresher {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  z-index: 9999;
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .ion-refresher {
+    display: block;
+  }
+}
+
+.home-layout {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-lg);
+}
+
+/* Weather Card */
+.weather-card {
+  background: linear-gradient(135deg, var(--ion-color-primary), var(--ion-color-primary-shade));
+  color: white;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+}
+
+.weather-header {
+  padding: var(--space-md);
+  background: rgba(255, 255, 255, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.weather-content {
+  padding: var(--space-md);
+}
+
+.weather-info {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: var(--space-md);
+  margin-top: var(--space-md);
+}
+
+.weather-stat {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+}
+
+.weather-alert {
+  margin-top: var(--space-md);
+  padding: var(--space-sm) var(--space-md);
+  background: rgba(var(--ion-color-danger-rgb), 0.2);
+  border-radius: var(--radius-md);
+  font-size: 0.875rem;
+}
+
+/* Dashboard Cards */
+.dashboard-cards {
+  display: grid;
+  gap: var(--space-md);
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+}
+
+.dashboard-card {
+  background: var(--ion-card-background);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  transition: all var(--transition-normal);
+  height: 100%;
+}
+
+.dashboard-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-lg);
+}
+
+.card-header {
+  padding: var(--space-md);
+  background: rgba(var(--ion-color-primary-rgb), 0.05);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.card-title {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  font-size: 1rem;
+  font-weight: var(--font-semibold);
+}
+
+.card-content {
+  padding: var(--space-md);
+  color: var(--ion-color-medium);
+}
+
+/* Activity Feed */
+.activity-feed {
+  background: var(--ion-card-background);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+}
+
+.activity-header {
+  padding: var(--space-md);
+  border-bottom: 1px solid var(--ion-color-light);
+}
+
+.activity-list {
+  padding: var(--space-md);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+}
+
+.activity-item {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-sm);
+  padding: var(--space-sm);
+  border-radius: var(--radius-md);
+  transition: background-color var(--transition-fast);
+}
+
+.activity-item:hover {
+  background: rgba(var(--ion-color-primary-rgb), 0.05);
+}
+
+/* Responsive Adjustments */
+@media (min-width: 768px) {
+  .dashboard-stats {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  .home-layout {
+    display: grid;
+    grid-template-columns: 1fr 350px;
+    gap: var(--space-xl);
+  }
+
+  .main-content {
+    min-width: 0;
+  }
+
+  .side-content {
+    position: sticky;
+    top: calc(var(--header-height) + var(--space-md));
+    height: calc(100vh - var(--header-height) - var(--space-xl));
+    overflow-y: auto;
+  }
+}
+
+/* Dark Mode Support */
+@media (prefers-color-scheme: dark) {
+  .weather-card {
+    background: linear-gradient(135deg, var(--ion-color-dark) 0%, var(--ion-color-dark-shade) 100%);
+  }
+
+  .dashboard-card {
+    background: var(--ion-card-background);
+  }
+
+  .activity-feed {
+    background: var(--ion-color-dark);
+  }
+}
+
+/* Stats Card */
+.stats-card {
+  background: white;
+  border-radius: 12px;
+  padding: 16px;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+}
+
+.stat-item {
+  text-align: center;
+  padding: 12px 8px;
+  background: rgba(var(--ion-color-primary-rgb), 0.05);
+  border-radius: 8px;
+  transition: transform 0.2s ease;
+  border: 1px solid rgba(var(--ion-color-primary-rgb), 0.1);
+}
+
+.stat-item:hover {
+  transform: translateY(-2px);
+  background: rgba(var(--ion-color-primary-rgb), 0.08);
+}
+
+.stat-number {
+  font-size: 24px;
+  font-weight: 600;
+  color: var(--ion-color-primary);
+  line-height: 1.2;
+  margin-bottom: 4px;
+}
+
+.stat-label {
+  font-size: 12px;
+  color: var(--ion-color-medium);
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.text-danger {
+  color: var(--ion-color-danger) !important;
+}
+
+/* Weather Card */
+.weather-card {
+  margin-bottom: 20px;
+}
+
+.weather-card ion-card {
+  margin: 0;
+  background: linear-gradient(135deg, var(--ion-color-primary), var(--ion-color-primary-tint));
+  color: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(var(--ion-color-primary-rgb), 0.2);
+}
+
+.weather-card ion-card-header {
+  padding: 16px;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.weather-card ion-card-title {
+  color: white;
+  font-size: 18px;
+  font-weight: 600;
+  margin: 0;
+}
+
+.weather-card ion-card-content {
+  padding: 16px;
+}
+
+.weather-card p {
+  margin: 8px 0;
+  font-size: 14px;
+  opacity: 0.95;
+  line-height: 1.4;
+}
+
+.weather-card ion-note {
+  display: block;
+  margin-top: 12px;
+  padding: 8px 12px;
+  border-radius: 8px;
+  background: rgba(var(--ion-color-danger-rgb), 0.2);
+  color: white;
+  font-size: 13px;
+}
+
+/* Dashboard Grid */
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+/* Dashboard Card */
+.dashboard-card {
+  height: 100%;
+}
+
+.dashboard-card ion-card {
+  margin: 0;
+  height: 100%;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  background: white;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  cursor: pointer;
+  --background: white;
+  --color: var(--ion-text-color);
+  overflow: hidden;
+}
+
+.dashboard-card ion-card ion-card-header {
+  padding: 16px;
+  background: rgba(var(--ion-color-primary-rgb), 0.1);
+}
+
+.dashboard-card ion-card ion-card-title {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--ion-color-primary);
+  display: flex;
+  align-items: center;
+}
+
+.dashboard-card ion-card ion-card-content {
+  padding: 16px;
+  color: var(--ion-color-dark);
+  font-size: 14px;
+}
+
+.dashboard-card ion-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+}
+
+.dashboard-card ion-card:active {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.08);
+}
+
+.dashboard-card:before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, #2f703a, #4a9f5a);
+}
+
+.dashboard-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+}
+
+.dashboard-card .icon {
+  font-size: 32px;
+  margin-bottom: 10px;
+  display: block;
+}
+
+.dashboard-card h3 {
+  font-size: 16px;
+  font-weight: 600;
+  color: #2f703a;
+  margin: 0;
+}
+
+.card-content {
+  display: flex;
+  align-items: center;
+  padding: 16px;
+  position: relative;
+  z-index: 1;
+}
+
+.card-icon {
+  position: relative;
+  margin-right: 16px;
+  padding: 12px;
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.card-text {
+  flex: 1;
+}
+
+.card-text h3 {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--ion-color-dark);
+}
+
+.card-text p {
+  margin: 4px 0 0 0;
+  font-size: 13px;
+  color: var(--ion-color-medium);
+  opacity: 0.8;
+}
+
+/* Notifications */
+.notifications {
+  background: linear-gradient(135deg, #ff6b6b, #ee5a52);
+  border-radius: 15px;
+  padding: 15px;
+  color: white;
+  margin-bottom: 20px;
+  box-shadow: 0 4px 15px rgba(255,107,107,0.2);
+}
+
+.notifications h4 {
+  margin-bottom: 10px;
+  font-size: 16px;
+}
+
+.notification-item {
+  background: rgba(255,255,255,0.1);
+  padding: 8px 12px;
+  border-radius: 8px;
+  margin-bottom: 8px;
+  font-size: 14px;
+}
+
+.notification-item:last-child {
+  margin-bottom: 0;
+}
+
+/* Enhanced List Items */
+ion-item {
+  --padding-start: 16px;
+  --padding-end: 16px;
+  --min-height: 64px;
+}
+
+ion-item ion-icon[slot="start"] {
+  margin-right: 16px;
+  font-size: 20px;
+}
+
+ion-item ion-label h3 {
+  font-weight: 600;
+  font-size: 15px;
+  margin-bottom: 4px;
+}
+
+ion-item ion-label p {
+  font-size: 13px;
+  line-height: 1.4;
+  color: var(--ion-color-medium);
+}
+
+/* FAB Styling */
+ion-fab-button {
+  --box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+  --border-radius: 16px;
+}
+
+/* Desktop Responsive Design */
+/* Tablet and up */
+@media (min-width: 768px) {
+  .desktop-container {
+    padding: 24px;
+  }
+
+  .stats-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  .dashboard-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .stat-number {
+    font-size: 32px;
+  }
+
+  .stat-label {
+    font-size: 14px;
+  }
+}
+
+/* Desktop */
+@media (min-width: 1024px) {
+  .desktop-container {
+    display: grid;
+    grid-template-columns: 1fr 350px;
+    gap: 24px;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 32px;
+  }
+
+  .main-content {
+    min-width: 0; /* Fix for grid content overflow */
+  }
+
+  .side-content {
+    position: sticky;
+    top: 32px;
+    height: calc(100vh - 160px);
+    overflow-y: auto;
+    padding-right: 8px;
+  }
+
+  .dashboard-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  /* Custom scrollbar for desktop */
+  .side-content::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  .side-content::-webkit-scrollbar-track {
+    background: var(--ion-color-light);
+    border-radius: 4px;
+  }
+
+  .side-content::-webkit-scrollbar-thumb {
+    background: var(--ion-color-medium);
+    border-radius: 4px;
+  }
+
+  .side-content::-webkit-scrollbar-thumb:hover {
+    background: var(--ion-color-medium-shade);
+  }
+}
+
+@media (min-width: 1024px) {
+  /* Large desktop optimizations */
+  .stats-card,
+  .weather-card,
+  ion-card {
+    margin: 24px auto;
+    max-width: 1400px;
+  }
+  
+  .dashboard-card {
+    min-height: 140px;
+  }
+  
+  /* Grid improvements for desktop */
+  .desktop-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 24px;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 24px;
+  }
+}
+
+/* Animation Classes */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.fade-in {
+  animation: fadeIn 0.5s ease-out forwards;
+}
+
+.slide-in {
+  animation: slideInRight 0.4s ease-out forwards;
+}
+
+/* Badge Animations */
+ion-badge {
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+/* Enhanced Touch Feedback */
+.dashboard-card.ion-activated {
+  transform: scale(0.98);
+}
+
+/* Loading States */
+.loading-shimmer {
+  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+/* Dark Mode Support */
+@media (prefers-color-scheme: dark) {
+  .stats-card {
+    background: var(--ion-color-dark-tint);
+  }
+  
+  .weather-card {
+    background: linear-gradient(135deg, var(--ion-color-dark) 0%, var(--ion-color-dark-shade) 100%);
+  }
+  
+  .card-icon {
+    background: rgba(255, 255, 255, 0.1);
+  }
+  
+  .loading-shimmer {
+    background: linear-gradient(90deg, #2a2a2a 25%, #3a3a3a 50%, #2a2a2a 75%);
+    background-size: 200% 100%;
+  }
+}

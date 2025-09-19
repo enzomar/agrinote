@@ -1,0 +1,136 @@
+/* Treatments Page Specific Styles */
+.search-filters {
+  margin-bottom: 16px;
+}
+
+.search-bar {
+  margin-bottom: 8px;
+}
+
+.status-filter {
+  background: var(--ion-card-background);
+  border-radius: 8px;
+  padding: 4px;
+}
+
+.voice-card {
+  margin-bottom: 16px;
+}
+
+.voice-card ion-card {
+  margin: 0;
+}
+
+.treatment-list {
+  background: var(--ion-card-background);
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.treatment-list ion-item {
+  --padding-start: 16px;
+  --padding-end: 16px;
+  --inner-padding-end: 16px;
+}
+
+.treatment-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.treatment-title {
+  font-size: 16px;
+  font-weight: 600;
+  margin: 0;
+}
+
+.treatment-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  margin-bottom: 8px;
+}
+
+.treatment-details {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.treatment-note {
+  color: var(--ion-color-medium);
+  font-size: 13px;
+}
+
+.validation-chip {
+  margin-top: 8px;
+}
+
+/* Modal Styles */
+.add-treatment-modal {
+  --height: 90%;
+  --border-radius: 16px;
+}
+
+.modal-content {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.form-section {
+  margin-bottom: 24px;
+}
+
+.form-section-title {
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 16px;
+  color: var(--ion-color-dark);
+}
+
+/* Tablet Layout */
+@media (min-width: 768px) {
+  .treatment-list {
+    margin: 0;
+  }
+
+  .search-filters {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .search-bar {
+    flex: 1;
+    margin-bottom: 0;
+  }
+
+  .status-filter {
+    width: auto;
+    min-width: 300px;
+  }
+
+  .treatment-details {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+/* Desktop Layout */
+@media (min-width: 1024px) {
+  .modal-content {
+    padding: 32px;
+  }
+
+  .form-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 24px;
+  }
+
+  .treatment-list ion-item:hover {
+    --background: var(--ion-color-light);
+  }
+}

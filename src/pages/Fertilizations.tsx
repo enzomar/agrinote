@@ -6,7 +6,9 @@ const Fertilizations: React.FC = () => {
     <IonPage>
       <IonHeader>
         <IonToolbar color="primary">
-          <IonTitle>Concimazioni</IonTitle>
+          <IonTitle>
+            <div className="page-title">🌿 Concimazioni</div>
+          </IonTitle>
         </IonToolbar>
       </IonHeader>
       <IonContent className="ion-padding">

@@ -1,0 +1,9 @@
+version: '3.8'
+
+services:
+  pwa:
+    build: .
+    container_name: agrinote-pwa
+    ports:
+      - "8080:80"
+    restart: always
