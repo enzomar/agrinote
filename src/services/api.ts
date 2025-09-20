@@ -2,7 +2,7 @@
 import { Preferences } from '@capacitor/preferences';
 
 // API Configuration
-const API_BASE_URL = process.env.REACT_APP_API_URL || 'https://api.agromanager.com/v1';
+const API_BASE_URL = process.env.REACT_APP_API_URL || 'https://api.agrinote.com/v1';
 const API_TIMEOUT = 10000;
 
 // Types

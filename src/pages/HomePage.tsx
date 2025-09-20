@@ -48,7 +48,7 @@ const Home: React.FC = () => {
     <IonPage>
       <IonHeader>
         <IonToolbar className="header-gradient">
-          <IonTitle>🌱 AgroManager</IonTitle>
+          <IonTitle>🌱 AgriNote</IonTitle>
         </IonToolbar>
       </IonHeader>
 
