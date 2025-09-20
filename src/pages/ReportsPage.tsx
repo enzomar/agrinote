@@ -1,76 +1,113 @@
-import React, { useContext } from 'react';
-import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent, IonButton, IonList, IonItem } from '@ionic/react';
+// src/pages/ReportsPage.tsx
+import React, { useContext, useState } from 'react';
+import {
+  IonPage,
+  IonHeader,
+  IonToolbar,
+  IonTitle,
+  IonContent,
+  IonToast,
+} from '@ionic/react';
 import { AppContext } from '../context/AppContext';
-import jsPDF from 'jspdf';
+import '../pages/Home.css';
 
 const ReportsPage: React.FC = () => {
   const ctx = useContext(AppContext);
-  if (!ctx) throw new Error('AppContext missing');
+  if (!ctx) throw new Error('AppContext not found');
 
-  const { treatments, fertilizers, products } = ctx;
+  const [toast, setToast] = useState<{show: boolean; msg: string}>({ show: false, msg: '' });
 
-  const generatePDF = () => {
-    const doc = new jsPDF();
-    doc.setFontSize(16);
-    doc.text('AgriNote - Report', 14, 20);
+  const reports = [
+    {
+      id: 'campo',
+      title: '📋 Quaderno di Campagna',
+      description: 'Report completo dei trattamenti effettuati',
+      period: 'Periodo: Gennaio - Settembre 2025'
+    },
+    {
+      id: 'bio',
+      title: '🌿 Certificazione Biologica',
+      description: 'Report per enti di certificazione bio',
+      period: 'Conforme ai reg. UE 2018/848'
+    },
+    {
+      id: 'gap',
+      title: '🏆 SQNPI - GlobalGAP',
+      description: 'Report per certificazioni di qualità',
+      period: 'Standard internazionali'
+    },
+    {
+      id: 'costi',
+      title: '📈 Analisi Costi',
+      description: 'Riepilogo spese per trattamenti e concimi',
+      period: 'Budget 2025: €2,350 / €3,000'
+    }
+  ];
 
-    let y = 32;
-    doc.setFontSize(12);
-    doc.text('Treatments', 14, y);
-    y += 8;
-    treatments.forEach((t, idx) => {
-      doc.text(`${idx + 1}. ${t.description} ${t.dose ? `- ${t.dose} kg/ha` : ''}`, 14, y);
-      y += 6;
-      if (y > 280) { doc.addPage(); y = 20; }
+  const downloadReport = (type: string) => {
+    const reportTypes: { [key: string]: string } = {
+      'campo': 'Quaderno di Campagna',
+      'bio': 'Certificazione Biologica',
+      'gap': 'Report GlobalGAP',
+      'costi': 'Analisi Costi'
+    };
+    
+    setToast({ 
+      show: true, 
+      msg: `Sto generando il ${reportTypes[type]}...\n\nIn un'app reale, il PDF verrebbe scaricato automaticamente e inviato via email.`
     });
-
-    y += 8;
-    doc.text('Fertilizers', 14, y);
-    y += 8;
-    fertilizers.forEach((f, idx) => {
-      doc.text(`${idx + 1}. ${f.name} - ${f.amount} kg/ha`, 14, y);
-      y += 6;
-      if (y > 280) { doc.addPage(); y = 20; }
-    });
-
-    y += 8;
-    doc.text('Warehouse', 14, y);
-    y += 8;
-    products.forEach((p, idx) => {
-      doc.text(`${idx + 1}. ${p.name} - ${p.quantity} ${p.unit || ''}`, 14, y);
-      y += 6;
-      if (y > 280) { doc.addPage(); y = 20; }
-    });
-
-    doc.save(`agronote-report-${new Date().toISOString().split('T')[0]}.pdf`);
+    
+    // Simulate PDF generation
+    setTimeout(() => {
+      setToast({ 
+        show: true, 
+        msg: `${reportTypes[type]} generato con successo!\n\n📧 Inviato a: farmer@example.com\n📱 Salvato nel dispositivo`
+      });
+    }, 2000);
   };
 
   return (
     <IonPage>
       <IonHeader>
-        <IonToolbar color="primary">
-          <IonTitle>Reports</IonTitle>
+        <IonToolbar className="header-gradient">
+          <IonTitle>📊 Report</IonTitle>
         </IonToolbar>
       </IonHeader>
 
-      <IonContent className="ion-padding">
-        <IonButton expand="block" onClick={generatePDF}>Download PDF</IonButton>
+      <IonContent>
+        <div className="home-container">
+          <h2 style={{ color: '#2f703a', marginBottom: '20px' }}>
+            📊 Report & Certificazioni
+          </h2>
+          
+          {reports.map((report) => (
+            <div key={report.id} className="report-card">
+              <h4>{report.title}</h4>
+              <p>{report.description}</p>
+              <p style={{ color: '#666', fontSize: '14px' }}>
+                {report.period}
+              </p>
+              <button 
+                className="btn" 
+                onClick={() => downloadReport(report.id)}
+              >
+                📥 Scarica PDF
+              </button>
+            </div>
+          ))}
 
-        <h3 style={{ marginTop: 18 }}>Quick Preview</h3>
-        <h4>Treatments</h4>
-        <IonList>
-          {treatments.map(t => <IonItem key={t.id}>{t.description}</IonItem>)}
-        </IonList>
+          <div style={{ marginTop: '30px', textAlign: 'center', color: '#666' }}>
+            <p>📧 I report vengono inviati automaticamente alla tua email</p>
+          </div>
+        </div>
 
-        <h4>Fertilizers</h4>
-        <IonList>
-          {fertilizers.map(f => <IonItem key={f.id}>{f.name} - {f.amount} kg/ha</IonItem>)}
-        </IonList>
-
-        <h4>Warehouse</h4>
-        <IonList>
-          {products.map(p => <IonItem key={p.id}>{p.name} - {p.quantity} {p.unit}</IonItem>)}
-        </IonList>
+        <IonToast 
+          isOpen={toast.show} 
+          message={toast.msg}
+          duration={4000} 
+          onDidDismiss={() => setToast({ show: false, msg: '' })} 
+          position="bottom"
+        />
       </IonContent>
     </IonPage>
   );
